@@ -41,11 +41,10 @@ Node.js очень просто установить. Если вы исполь
 
 В этом примере я переместил `console.log` в файл, который затем передал команде `node` в качестве аргумента. Node затем запускает JavaScript из этого файла и выводит `Hello World`.
 
-## Doing Something Useful - File I/O
+## Делаем что-нибудь полезное - Работа с файлами
 
-Running plain JavaScript is fun and all, but not very useful. This is why
-Node.js also includes a powerful set of [libraries][lib] (modules) for doing
-real things. In this first example I'm going to open a log file and parse it.
+Просто выполнять JavaScript весело и всё такое, но не очень полезно. Вот почему
+Node.js также включает в себя мощный набор [библиотек][lib] (модулей) для серьёзных задач. В этом первом примере я собираюсь открыть файл с логами и распарсить его.
 
 *example_log.txt*
 
@@ -55,55 +54,50 @@ real things. In this first example I'm going to open a log file and parse it.
     2013-08-09T13:53:33.166Z B 8
     2013-08-09T13:54:33.166Z B 5
 
-What this log data means is not important, but basically each message contains
-a date, a letter, and a value. I want to add up the values for each letter.
+Неважно, что означают данные в логах, но по существу каждое сообщение содержит дату, букву и значение. Я хочу добавить значений для каждой буквы.
 
-The first thing we need to do it read the contents of the file.
+Сперва нам нужно считать содержимое файла.
 
 *my_parser.js*
 
-    // Load the fs (filesystem) module
+    // Загрузка модуля fs (файловая система)
     var fs = require('fs');
 
-    // Read the contents of the file into memory.
+    // Считывание содержимого файла в память
     fs.readFile('example_log.txt', function (err, logData) {
 
-      // If an error occurred, throwing it will
-      // display the exception and end our app.
+      // Если произошла ошибка, то при её выбросе отобразится исключение,
+      // и работа приложения завершится
       if (err) throw err;
 
-      // logData is a Buffer, convert to string.
+      // logData имеет тип Buffer, переводим в string
       var text = logData.toString();
     });
 
-Fortunately Node.js makes file I/O really easy with the built-in
-[filesystem][fs] (`fs`) module. The `fs` module has a function named
-[readFile][readFile] that takes a file path and a callback. The callback will
-be invoked when the file is done being read. The file data comes in the form
-of a [Buffer][buffer], which is basically a byte array. We can convert it to a
-string using the [toString][toString]() function.
+К счастью, Node.js делает работы с файлами очень простой со встроенным модулем
+[файловой системы][fs] (`fs`). Модуль `fs` содержит функцию 
+[readFile][readFile], принимающую путь до файла и коллбэк. Коллбэк вызовется, когда завершится чтение файла. Данные из файла поступают в виде [Buffer][buffer], по сути представляющий собой массив байтов. Мы можем перевести его в строку с помощью функции [toString][toString]().
 
-Now let's add in the parsing. This is pretty much normal JavaScript so I won't
-go into any details.
+Теперь давайте займёмся парсингом. Это вполне себе обычный JavaScript, поэтому я не буду вдаваться в детали.
 
 *my_parser.js*
 
-    // Load the fs (filesystem) module.
+    // Загрузка модуля fs
     var fs = require('fs');
 
-    // Read the contents of the file into memory.
+    // Считывание содержимого файла в память
     fs.readFile('example_log.txt', function (err, logData) {
 
-      // If an error occurred, throwing it will
-      // display the exception and kill our app.
+      // Если произошла ошибка, то при её выбросе отобразится исключение,
+      // и работа приложения завершится.
       if (err) throw err;
 
-      // logData is a Buffer, convert to string.
+      // logData имеет тип Buffer, переводим в string
       var text = logData.toString();
 
       var results = {};
 
-      // Break up the file into lines.
+      // Разбивка файла по строкам
       var lines = text.split('\n');
 
       lines.forEach(function(line) {
