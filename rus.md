@@ -48,7 +48,7 @@ JavaScript-файла для выполнения. Так вы будете де
 
     console.log('Hello World');
 
-<!--  -->
+Теперь запустим его в терминале:
 
     $ node hello.js
     Hello World
